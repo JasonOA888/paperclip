@@ -35,8 +35,9 @@ DATABASE_URL=postgres://...    # Your PostgreSQL connection string
 BETTER_AUTH_SECRET=...         # Random 32+ char secret
 PAPERCLIP_AGENT_JWT_SECRET=... # Random 32+ char secret
 
-# Deployment mode
+# Deployment mode (required for internet-facing deployments)
 PAPERCLIP_DEPLOYMENT_MODE=authenticated
+PAPERCLIP_DEPLOYMENT_EXPOSURE=public
 
 # Auth URLs (replace with your Vercel URL)
 PAPERCLIP_AUTH_BASE_URL_MODE=explicit
@@ -51,9 +52,21 @@ PAPERCLIP_AUTH_DISABLE_SIGN_UP=true
 Before the first deployment, run migrations against your database:
 
 ```bash
-# Local terminal with DATABASE_URL set
-npx drizzle-kit push
+# Clone your fork locally
+git clone https://github.com/YOUR_USERNAME/paperclip.git
+cd paperclip
+
+# Install dependencies
+pnpm install
+
+# Set DATABASE_URL in your shell
+export DATABASE_URL="postgres://..."
+
+# Run migrations using the project's migration script
+pnpm db:migrate
 ```
+
+> **Note:** Use `pnpm db:migrate` instead of `npx drizzle-kit push`. The project has a dedicated migration script that handles the TypeScript schema correctly.
 
 ### 5. Deploy
 
